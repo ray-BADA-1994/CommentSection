@@ -4,16 +4,25 @@ import InputForm from './InputForm'
 import Comment from './Comment'
 import { useEffect, useState } from 'react'
 import { getAllComments, addComment as addCommentApi } from '../lib/HelperFunction'
+import axios from 'axios'
+import { useGlobalContext } from '../context/GlobalContext'
 
 // eslint-disable-next-line react/prop-types
-const CommentSection = ({logginUserId}) => {
+const CommentSection = () => {
+  
+  const {token} = useGlobalContext()
+  
+  const logginUserId = 1
+
   const [getComment, setGetComment] = useState([])
 
   console.log(getComment);
 
-  const parentComments = getComment.filter(comment => comment.ParentId===null)
+  // const parentComments = getComment.filter(comment => comment.ParentId===null)
+  const parentComments = getComment.filter(comment => comment.isParent===true)
 
-  const getReplies = (id) => getComment.filter(comment => comment.ParentId === id)
+  // const getReplies = (id) => getComment.filter(comment => comment.ParentId === id)
+  const getReplies = (id) => getComment.filter(comment => comment.comment === id)
 
   const handleDelete = (id) => {
     if(window.confirm('Are you sure you want to delete')){
@@ -22,10 +31,16 @@ const CommentSection = ({logginUserId}) => {
     }
   }
 
-  const addNewComment = (text, userId,commentId=null) => {
-      addCommentApi(text, userId, commentId).then(res => {
-        setGetComment([res, ...getComment])
-      });
+  // const addNewComment = (text, userId,commentId=null) => {
+  //     addCommentApi(text, userId, commentId).then(res => {
+  //       setGetComment([res, ...getComment])
+  //     });
+  // }
+
+  const addNewComment = (text, blogId, userId, token) => {
+    addCommentApi(text, blogId, userId, token).then(res => {
+      setGetComment([res, ...getComment])
+    });
   }
 
 //   function getReply(id){
@@ -33,9 +48,16 @@ const CommentSection = ({logginUserId}) => {
 //   }
 
     useEffect(()=>{
-      getAllComments().then(res => {
-        setGetComment(res)
-    })
+    //   getAllComments().then(res => {
+    //     setGetComment(res)
+    // }) 
+    
+    const response = axios('http://localhost:4000/api/v1/comments', {
+    headers:{
+      Authorization: `Bearer ${token}`
+    }
+    }).then(res => setGetComment(res.data.data.comments))
+    
     }, [])
   return (
     <section className='py-5 px-2 flex flex-col gap-5 min-w-[300px] w-[500px] min-h-[400px] bg-[#f1f2f3]'>
@@ -67,5 +89,19 @@ const CommentSection = ({logginUserId}) => {
     </section>
   )
 }
+
+
+
+// const commentLoader = async () => {
+  
+
+    
+//   const response = await axios('http://localhost:4000/api/v1/comments', {
+//     headers:{
+//       Authorization: `Bearer  `
+//     }
+//   })
+//   return 
+// }
 
 export default CommentSection

@@ -58,15 +58,15 @@ import InputForm from "./InputForm"
         { !isEditing && <div className="flex flex-col">
           {/* user name */}
           <div className="flex items-end gap-2">
-          <h2 className="text-xs font-medium">{parentComment.username}</h2>
+          <h2 className="text-xs font-medium">{parentComment.user.name}</h2>
           {/* time */}
           <p className="text-[10px]" >
-            <small>{parentComment.time}</small>
+            <small>{new Date(parentComment.createdAt).toLocaleDateString()}</small>
           </p>
           </div>
            {/* user comment */}
           <p className="text-xs">
-            {parentComment.comment}
+            {parentComment.reply}
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, enim! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita, cum. */}
           </p>
           

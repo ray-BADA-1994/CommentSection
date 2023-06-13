@@ -11,3 +11,103 @@ body{
     background: #e4e7e5;
     color: #181b19;
 }
+
+.btn-animate {
+   position: relative;
+   background-color: transparent;
+}
+
+.btn-animate::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #849493;
+    transform: scaleX(0);
+    transform-origin: 0;
+   transition: transform 150ms ease-in-out;
+}
+
+.btn-animate{
+    padding-left: 3px;
+    transition: all 150ms ease-in-out;
+    z-index: 1;
+}
+
+.btn-animate:hover::before,
+.btn-animate:focus::before
+{
+    transform: scaleX(1);
+}
+
+.btn-animate:hover,
+.btn-animate:focus
+{
+    color: white;
+   
+}
+
+.animate-enter{
+    animation-name: enter;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+    animation-duration: 300ms;
+    transform-origin: 0;
+    position: relative;
+}
+
+@keyframes enter {
+    from{
+        transform: translateY(100);
+        opacity: 0.5;
+        left: -10px;
+    } 
+
+    to{
+        transform: translateY(0);
+        left: 0px;
+        opacity: 1;
+    }
+}
+
+
+/* BUTTON LOADER ANIMATION */
+.loader {
+    border: 4px solid rgba(0, 0, 0, 1);
+    border-left-color: transparent;
+    border-radius: 50%;
+  }
+  
+  .loader {
+    border: 4px solid rgba(0, 0, 0, .1);
+    border-left-color: transparent;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .loader {
+    border: 4px solid rgba(0, 0, 0, .1);
+    border-left-color: transparent;
+    width: 16px;
+    height: 16px;
+    animation: spin89345 1s linear infinite;
+  }
+  
+  @keyframes spin89345 {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+
+
+
